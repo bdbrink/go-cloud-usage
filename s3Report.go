@@ -12,8 +12,11 @@ import (
 
 func generateReportGET() {
 
+	// setup credentials, will load local credentials make sure they are valid
 	sess := session.Must(session.NewSession())
 	costClient := costexplorer.New(sess)
+
+	// get current date and six months from now for report
 	now := time.Now()
 	formatDate := now.Format("2006-01-01")
 	sixMonths := time.Now().AddDate(0, -6, 0)
@@ -22,6 +25,7 @@ func generateReportGET() {
 	fmt.Println(formatDate)
 	fmt.Println(sixMonthsFormat)
 
+	// simple single dimension query
 	result, err := costClient.GetCostAndUsage(&costexplorer.GetCostAndUsageInput{
 		Filter: &costexplorer.Expression{
 			Dimensions: &costexplorer.DimensionValues{
